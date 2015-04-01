@@ -1,7 +1,9 @@
 package service;
-
+/**
+ * @author Richa
+ */
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 public class MenuImpl implements Menu{
 	 private static MenuImpl instance = null;
@@ -17,7 +19,7 @@ public class MenuImpl implements Menu{
 	@Override
 	public String printMenu() {
 		StringBuilder sb = new StringBuilder();
-        sb.append("\nMenu:");
+        sb.append("Menu:");
         sb.append("\n\n");
                 
         /*

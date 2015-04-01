@@ -1,5 +1,7 @@
 package beans;
-
+/**
+ * @author Richa
+ */
 public class Ingredient {
 	public String Name ;
     public int Units ;

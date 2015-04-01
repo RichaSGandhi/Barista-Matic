@@ -1,5 +1,7 @@
 package app;
-
+/**
+ * @author Richa
+ */
 import java.util.Scanner;
 
 import beans.CafeLatte;
@@ -17,21 +19,16 @@ public class MainBaristaMaticApp {
         // I am using a singleton Pattern here so that only 1 instance of Inventory and Menu are created.
 		Inventory inventory = Inventory.getInstance();
         inventory.InitializeIngredientsInventory();
-        inventory.priceInventory();
+        
         MenuImpl mainMenu  = MenuImpl.getInstance();
         
-        Coffee coffee = new Coffee();
-        
-        DecafCoffee decaf = new DecafCoffee();
-     
         CaffeAmericano americano = new CaffeAmericano();
-        
         CafeLatte latte = new CafeLatte();
-      
         CafeMocha mocha = new CafeMocha();
-        
         Cappuccino cappuccino = new Cappuccino();
-    
+        Coffee coffee = new Coffee(); 
+        DecafCoffee decaf = new DecafCoffee();  
+        
         boolean quit = false;
 
         int selection = 0;
@@ -43,42 +40,51 @@ public class MainBaristaMaticApp {
             sb.append(mainMenu.printMenu());
 
             System.out.print(sb.toString());
-            System.out.println("\n");
+            //System.out.println("\n");
             String userEntered = "";
          
-                userEntered = scanner.nextLine();
-                try {
+              userEntered = scanner.nextLine();
+              while(userEntered.isEmpty() || userEntered.trim().equals("") || userEntered.trim().equals("\n"))
+            	  userEntered = scanner.nextLine(); 
+              //Checking Length in case the invalid characters start with r or q or any valid selections
+              if (userEntered.length() >1)
+            	 selection = 0;
+              else
                 selection = Character.getNumericValue(
                 		userEntered.charAt(0));
-                }catch(Exception e){
-                	e.printStackTrace();
-                }
-
-            String actionTaken = "";
+            String choice = "";
             switch(selection) {
 
                 case 1:
-                    actionTaken = americano.dispenseDrink();
+                	choice = americano.dispenseDrink();
                     break;
                 case 2:
-                    actionTaken = latte.dispenseDrink();
+                	choice = latte.dispenseDrink();
                     break;
                 case 3:
-                    actionTaken = mocha.dispenseDrink();
+                	choice = mocha.dispenseDrink();
                     break;
                 case 4:
-                    actionTaken = cappuccino.dispenseDrink();
+                	choice = cappuccino.dispenseDrink();
                     break;
                 case 5:
-                    actionTaken = coffee.dispenseDrink();
+                	choice = coffee.dispenseDrink();
                     break;
                 case 6:
-                    actionTaken = decaf.dispenseDrink();
+                	choice = decaf.dispenseDrink();
+                    break;
+                //Since the numeric value of character q or Q is 26. 
+                case 26:
+                    quit=true;
+                    break;
+                //Since the numeric value of character r and R is 27. 
+                case 27:
+                	inventory.InitializeIngredientsInventory();
                     break;
 
 
                 default:                    
-                    actionTaken = ("\nInvalid Entry:"+" "+userEntered).toString();
+                	choice = ("\nInvalid Entry:"+" "+userEntered).toString();
                     break;
                     
             }
@@ -86,8 +92,8 @@ public class MainBaristaMaticApp {
             if (quit)
                 break;
             
-            if (!actionTaken.isEmpty())
-                System.out.println(actionTaken);
+            if (!choice.isEmpty())
+                System.out.println(choice);
    
             americano.checkAvailabilty();
             latte.checkAvailabilty();

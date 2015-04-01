@@ -1,19 +1,27 @@
 package beans;
-
+/**
+ * @author Richa
+ */
+import java.text.DecimalFormat;
 import java.util.HashMap;
+
+import service.MenuImpl;
 
 public class CafeMocha extends Drink {
 	private final String MOCHA = "Caffe Mocha";
 	private HashMap<String, Integer> ingredients = null;
-
+	private MenuImpl drinkMenu = null;
+	public DecimalFormat costFormatter = new DecimalFormat("$0.00");
 	public CafeMocha(){
 	 this.setName(MOCHA);
+	 drinkMenu = super.getDrinkMenu();
      ingredients = new HashMap<String, Integer>();
      ingredients.put("Espresso", 1);
      ingredients.put("Cocoa", 1);
      ingredients.put("Steamed Milk", 1);
      ingredients.put("Whipped Cream", 1);
      this.setRecipe(ingredients);
+     drinkMenu.createDrink(this.getName(), this.calculateCost());
 	}
 	
 	@Override
@@ -24,7 +32,7 @@ public class CafeMocha extends Drink {
 		Ingredient i4 = new Ingredient("Cocoa",1,0.90);
 		double cost = i1.GetCostByIngredient()+i2.GetCostByIngredient()+
 				i3.GetCostByIngredient()+i4.GetCostByIngredient();
-		return String.valueOf(cost);
+		return costFormatter.format(cost);
 	}
 	
 

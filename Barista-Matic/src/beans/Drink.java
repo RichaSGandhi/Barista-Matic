@@ -1,5 +1,7 @@
 package beans;
-
+/**
+ * @author Richa
+ */
 import java.util.HashMap;
 
 import service.MenuImpl;

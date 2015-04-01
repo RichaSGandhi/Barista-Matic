@@ -1,13 +1,16 @@
 package data;
-
+/**
+ * @author Richa
+ */
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 
 public class Inventory {
 	 private HashMap<String, Integer> ingredientUnits = null;
-	 private HashMap<String, Double>  ingredientCosts = null;
+	 private TreeMap<String, Integer> sortedIngredients = null;
 	 private static Inventory instance = null;
 	 public static Inventory getInstance(){
 	        if (instance == null) {
@@ -15,25 +18,7 @@ public class Inventory {
 	        }
 	        return instance;
 	    }
-	    public void priceInventory() { 
-	        ingredientCosts = new HashMap<String, Double>();        
-	        try {
-	            ingredientCosts.put("Coffee", 0.75);
-	            ingredientCosts.put("Decaf Coffee", 0.75);
-	            ingredientCosts.put("Sugar", 0.25);
-	            ingredientCosts.put("Cream", 0.25);
-	            ingredientCosts.put("Steamed Milk", 0.35);
-	            ingredientCosts.put("Foamed Milk", 0.35);
-	            ingredientCosts.put("Espresso", 1.10);
-	            ingredientCosts.put("Cocoa", 0.90);
-	            ingredientCosts.put("Whipped Cream", 1.00);
-	        }
-	        catch(NullPointerException e) {
-	            System.err.println(e.getMessage());
-	        }       
-	    }
 
-	
 	    public void InitializeIngredientsInventory() {  
 	        if (ingredientUnits == null)
 	            ingredientUnits = new HashMap<String, Integer>();
@@ -91,28 +76,14 @@ public class Inventory {
 	        }
 	        return available;
 	    }
-	    public String getInventoryUnits() {
-	        
-	        StringBuilder builder = new StringBuilder();
-	        builder.append("\nInventory: ");
-	        builder.append("\n\n");
-	        
-	        try {
-	            Set<Map.Entry<String, Integer>> stock = ingredientUnits.entrySet();
-
-	            for (Map.Entry<String, Integer> ingredients : stock) {
-	                builder.append(ingredients.getKey().toString());
-	                builder.append(",");
-	                builder.append(ingredients.getValue().intValue());
-	                builder.append("\n\n");
-	            }
-	        }
-	        catch(NullPointerException e) {
-	            System.err.println(e.getMessage());
-	        }
-	        
-	        return builder.toString();
+	    public void sortingInventory(){
+	    	if (sortedIngredients == null)
+	    		sortedIngredients = new TreeMap<String, Integer>();
+	        else
+	        	sortedIngredients.clear(); 
+	        	sortedIngredients.putAll(ingredientUnits);
 	    }
+
 
 	    public void useStock(HashMap<String, Integer> recipe) {                
 	        try {
@@ -143,13 +114,13 @@ public class Inventory {
 	        }          
 	    }
 	    public String printInventory() {
-	        
+	    	sortingInventory();
 	        StringBuilder sb = new StringBuilder();
-	        sb.append("\nInventory");
+	        sb.append("\nInventory:");
 	        sb.append("\n\n");
 	        
 	        try {
-	            Set<Map.Entry<String, Integer>> stock = ingredientUnits.entrySet();
+	            Set<Map.Entry<String, Integer>> stock = sortedIngredients.entrySet();
 
 	            for (Map.Entry<String, Integer> stockAmounts : stock) {
 	                sb.append(stockAmounts.getKey().toString());
